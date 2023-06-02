@@ -8,16 +8,16 @@ on:
         required: true
         type: choice
         options:
-          - linux
-          - windows
-          - mac
+          - Linux
+          - Windows
+          - macOS
       env:
         description: 'An Environment'
         required: true
         type: choice
         options:
-          - development
-          - production
+          - Development
+          - Production
 
 jobs:
   build:
