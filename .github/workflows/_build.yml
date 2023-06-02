@@ -49,7 +49,7 @@ jobs:
           haxelib install feathersui --quiet
       
       - name: Map GitHub OS to Haxe OS
-        uses: dkershner6/switch-case-action@v1
+        uses: spilchen/switch-case-action@v2
         id: haxe-os
         with:
           conditionals-with-values: |
@@ -58,7 +58,7 @@ jobs:
             ${{ github.event.inputs.os == 'macos' }} => mac
 
       - name: Map Env to Haxe debug flag
-        uses: dkershner6/switch-case-action@v1
+        uses: spilchen/switch-case-action@v2
         id: haxe-debug
         with:
           conditionals-with-values: |
