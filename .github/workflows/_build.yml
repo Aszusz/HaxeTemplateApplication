@@ -1,0 +1,28 @@
+name: _Build
+
+on:    
+  workflow_dispatch:
+    inputs:
+      os:
+        description: 'An Operating System'
+        required: true
+        type: choice
+        options:
+          - linux
+          - windows
+          - mac
+      env:
+        description: 'An Environment'
+        required: true
+        type: choice
+        options:
+          - development
+          - production
+
+jobs:
+  build:
+    runs-on: linux-latest
+    
+    steps:    
+      - name: Print error
+        run: echo 'Error - placeholder workflow to be run from feature branch'
