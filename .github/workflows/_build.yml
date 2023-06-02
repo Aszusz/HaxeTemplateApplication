@@ -59,7 +59,7 @@ jobs:
 
       - name: Map Env to Haxe debug flag
         uses: spilchen/switch-case-action@v2
-        id: haxe-debug
+        id: haxe-env-flag
         with:
           conditionals-with-values: |
             ${{ github.event.inputs.env == 'production' }} => -release
@@ -70,12 +70,12 @@ jobs:
           haxelib run openfl build 
           project.xml 
           ${{ steps.haxe-os.outputs.value }} 
-          ${{ steps.haxe-debug.outputs.value }} 
+          ${{ steps.haxe-env-flag.outputs.value }} 
           -clean
 
       - name: Map GitHub OS to Haxe OS
         uses: spilchen/switch-case-action@v2
-        id: haxe-dir
+        id: haxe-platform-dir
         with:
           conditionals-with-values: |
             ${{ github.event.inputs.os == 'ubuntu' }} => linux
@@ -85,5 +85,5 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ steps.haxe-dir.outputs.value }}-${{ github.event.inputs.env }}-bin
-          path: bin/${{ steps.haxe-os.outputs.value }}/bin/
+          name: ${{ steps.haxe-platform-dir.outputs.value }}-${{ github.event.inputs.env }}-bin
+          path: bin/${{ steps.haxe-platform-dir.outputs.value }}/bin/
