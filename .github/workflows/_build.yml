@@ -2,22 +2,6 @@ name: _Build
 
 on:    
   workflow_dispatch:
-    inputs:
-      os:
-        description: 'An Operating System'
-        required: true
-        type: choice
-        options:
-          - Linux
-          - Windows
-          - macOS
-      env:
-        description: 'An Environment'
-        required: true
-        type: choice
-        options:
-          - Development
-          - Production
 
 jobs:
   build:
