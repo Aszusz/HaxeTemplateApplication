@@ -62,8 +62,8 @@ jobs:
         id: haxe-debug
         with:
           conditionals-with-values: |
-            ${{ github.event.inputs.env == 'Production' }} => -release
-            ${{ github.event.inputs.env == 'Development' }} => -debug
+            ${{ github.event.inputs.env == 'production' }} => -release
+            ${{ github.event.inputs.env == 'development' }} => -debug
 
       - name: Build
         run: >
@@ -72,3 +72,9 @@ jobs:
           ${{ steps.haxe-os.outputs.value }} 
           ${{ steps.haxe-debug.outputs.value }} 
           -clean
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ steps.haxe-os.outputs.value }}-${{ github.event.inputs.env }}-bin
+          path: bin/${{ steps.haxe-os.outputs.value }}/bin/
