@@ -42,6 +42,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          haxelib install lime --quiet
           haxelib install openfl --quiet
           haxelib install actuate --quiet
           haxelib install feathersui --quiet
@@ -60,8 +61,8 @@ jobs:
         id: haxe-debug
         with:
           conditionals-with-values: |
-            ${{ github.event.inputs.env == 'Production' }} =>
-            ${{ github.event.inputs.env == 'Development' }} => -debug
+            ${{ github.event.inputs.env == 'Production' }} => ''
+            ${{ github.event.inputs.env == 'Development' }} => '-debug'
 
       - name: Build
         run: haxelib run openfl build project.xml ${{ steps.haxe-os.outputs.value }} ${{ steps.haxe-debug.outputs.value }}
