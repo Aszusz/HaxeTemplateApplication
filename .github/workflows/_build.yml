@@ -62,8 +62,13 @@ jobs:
         id: haxe-debug
         with:
           conditionals-with-values: |
-            ${{ github.event.inputs.env == 'Production' }} => ''
-            ${{ github.event.inputs.env == 'Development' }} => '-debug'
+            ${{ github.event.inputs.env == 'Production' }} => -release
+            ${{ github.event.inputs.env == 'Development' }} => -debug
 
       - name: Build
-        run: haxelib run openfl build project.xml ${{ steps.haxe-os.outputs.value }} ${{ steps.haxe-debug.outputs.value }}
+        run: |-
+          haxelib run openfl build 
+          project.xml 
+          ${{ steps.haxe-os.outputs.value }} 
+          ${{ steps.haxe-debug.outputs.value }} 
+          -clean
