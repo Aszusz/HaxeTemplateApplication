@@ -1,4 +1,4 @@
-name: !dev
+name: _dev
 
 on:
   push:
