@@ -73,8 +73,17 @@ jobs:
           ${{ steps.haxe-debug.outputs.value }} 
           -clean
 
+      - name: Map GitHub OS to Haxe OS
+        uses: spilchen/switch-case-action@v2
+        id: haxe-dir
+        with:
+          conditionals-with-values: |
+            ${{ github.event.inputs.os == 'ubuntu' }} => linux
+            ${{ github.event.inputs.os == 'windows' }} => windows
+            ${{ github.event.inputs.os == 'macos' }} => macos
+
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ steps.haxe-os.outputs.value }}-${{ github.event.inputs.env }}-bin
+          name: ${{ steps.haxe-dir.outputs.value }}-${{ github.event.inputs.env }}-bin
           path: bin/${{ steps.haxe-os.outputs.value }}/bin/
