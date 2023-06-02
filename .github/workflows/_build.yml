@@ -8,16 +8,16 @@ on:
         required: true
         type: choice
         options:
-          - linux
-          - windows
-          - mac
+          - Linux
+          - Windows
+          - macOS
       env:
         description: 'An Environment'
         required: true
         type: choice
         options:
-          - development
-          - production
+          - Development
+          - Production
 
 jobs:
   build:
@@ -45,6 +45,23 @@ jobs:
           haxelib install openfl --quiet
           haxelib install actuate --quiet
           haxelib install feathersui --quiet
+      
+      - name: Map GitHub OS to Haxe OS
+        uses: dkershner6/switch-case-action@v1
+        id: haxe-os
+        with:
+          conditionals-with-values: |
+            ${{ github.event.inputs.os == 'Linux' }} => linux
+            ${{ github.event.inputs.os == 'Windows' }} => windows
+            ${{ github.event.inputs.os == 'macOS' }} => mac
+
+      - name: Map Env to Haxe debug flag
+        uses: dkershner6/switch-case-action@v1
+        id: haxe-debug
+        with:
+          conditionals-with-values: |
+            ${{ github.event.inputs.env == 'Production' }} =>
+            ${{ github.event.inputs.env == 'Development' }} => -debug
 
       - name: Build
-        run: haxelib run lime build project.xml windows -debug
+        run: haxelib run openfl build project.xml ${{ steps.haxe-os.outputs.value }} ${{ steps.haxe-debug.outputs.value }}
