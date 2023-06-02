@@ -40,8 +40,14 @@ jobs:
       - name: Update haxelib
         run: haxelib --global update haxelib --quiet
 
-      - name: Install dependencies
-        uses: ./install-dependencies
+      - name: Read install dependencies
+        id: dependencies
+        uses: juliangruber/read-file-action@v1.1.6
+        with:
+          path: ./install-dependencies.yml
+          
+      - name: Execute install dependencies
+        run: ${{ steps.dependencies.outputs.content }}
       
       - name: Map GitHub OS to Haxe OS
         uses: spilchen/switch-case-action@v2
