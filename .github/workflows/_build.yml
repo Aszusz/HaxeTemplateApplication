@@ -8,16 +8,16 @@ on:
         required: true
         type: choice
         options:
-          - Linux
-          - Windows
-          - macOS
+          - ubuntu
+          - windows
+          - macos
       env:
         description: 'An Environment'
         required: true
         type: choice
         options:
-          - Development
-          - Production
+          - development
+          - production
 
 jobs:
   build:
@@ -53,9 +53,9 @@ jobs:
         id: haxe-os
         with:
           conditionals-with-values: |
-            ${{ github.event.inputs.os == 'Linux' }} => linux
-            ${{ github.event.inputs.os == 'Windows' }} => windows
-            ${{ github.event.inputs.os == 'macOS' }} => mac
+            ${{ github.event.inputs.os == 'ubuntu' }} => linux
+            ${{ github.event.inputs.os == 'windows' }} => windows
+            ${{ github.event.inputs.os == 'macos' }} => mac
 
       - name: Map Env to Haxe debug flag
         uses: dkershner6/switch-case-action@v1
