@@ -2,6 +2,7 @@ haxelib install hxp --quiet
 haxelib install hxcpp --quiet
 haxelib install format --quiet
 haxelib git lime https://github.com/openfl/lime 8.1.0-Dev --quiet
+haxelib run lime rebuild windows -release -clean
 haxelib install openfl --quiet
 haxelib install actuate --quiet
 haxelib install feathersui --quiet
