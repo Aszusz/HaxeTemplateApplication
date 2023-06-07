@@ -1,0 +1,35 @@
+name: _Build
+
+on:    
+  workflow_call:
+    inputs:
+      artifact-name:
+        description: 'Artifact name'
+        required: false
+        type: string
+  workflow_dispatch:
+    inputs:
+      artifact-link:
+        description: 'Artifact link'
+        required: false
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+        - name: Download artifact by name
+          uses: actions/download-artifact@v3.0.2
+          if: github.event.inputs.artifact-name
+          with:
+            name: ${{ github.event.inputs.artifact-name }}
+            path: ${{ github.workspace }}/artifact
+
+        - name: Download artifact by link
+          uses: suisei-cn/actions-download-file@v1.3.0
+          if: startsWith(github.event.inputs.artifact-link, 'https://github.com/${{ github.event.repository }}/suites/13340603862/artifacts/729326617')
+          id: downloadfile
+          with:
+              url: ${{ github.event.inputs.artifact-link }}
+              target: ./
