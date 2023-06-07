@@ -1,6 +1,6 @@
 name: _Build
 
-on:    
+on:
   workflow_dispatch:
     inputs:
       os:
@@ -18,6 +18,17 @@ on:
         options:
           - development
           - production
+  
+  workflow_call:
+    inputs:
+      os:
+        description: 'An Operating System'
+        required: true
+        type: string
+      env:
+        description: 'An Environment'
+        required: true
+        type: string
 
 jobs:
   build:

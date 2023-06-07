@@ -1,4 +1,4 @@
-name: _Build
+name: _PostBuild
 
 on:    
   workflow_call:
@@ -33,3 +33,6 @@ jobs:
           with:
               url: ${{ github.event.inputs.artifact-link }}
               target: ./
+
+        - name: List files
+          run: ls -R
