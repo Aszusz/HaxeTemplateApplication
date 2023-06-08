@@ -1,4 +1,4 @@
-name: +Post Build
+name: Auto - Build Windows
 
 on:    
   workflow_dispatch:
