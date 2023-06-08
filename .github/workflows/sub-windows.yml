@@ -51,7 +51,7 @@ jobs:
         uses: rvolo/xml-replace-action@v0.3
         with:
           filepath: "project.xml"
-          xpath: "//project/meta"
+          xpath: "/project"
           replace: >
             <meta 
             title="${{ steps.full-app-name.outputs.value }} ${{ inputs.version }}" 
