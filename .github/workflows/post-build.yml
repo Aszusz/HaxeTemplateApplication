@@ -1,4 +1,4 @@
-name: _Post Build
+name: +Post Build
 
 on:    
   workflow_dispatch:
