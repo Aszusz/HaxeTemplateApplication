@@ -1,4 +1,4 @@
-name: Auto - Build Windows
+name: -M Build Windows
 
 on:    
   workflow_dispatch:
