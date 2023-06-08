@@ -39,6 +39,27 @@ jobs:
       - name: Checkout LFS objects
         run: git lfs checkout
 
+      - name: Map Env to full-app-name
+        uses: spilchen/switch-case-action@v2
+        id: full-app-name
+        with:
+          conditionals-with-values: |
+            ${{ inputs.env == 'production' }} => HaxeTemplateApplicationDevelopment ${{ inputs.version }}"
+            ${{ inputs.env == 'development' }} => HaxeTemplateApplication ${{ inputs.version }}"
+
+      - name: Override project.xml
+        uses: rvolo/xml-replace-action@v0.3
+        with:
+          filepath: "project.xml"
+          xpath: "//project/meta"
+          replace: >
+            <meta 
+            title="${{ steps.full-app-name.outputs.value }} ${{ inputs.version }}" 
+            package="com.example.${{ steps.full-app-name.outputs.value }}" 
+            version="${{ inputs.version }}" 
+            company="Black Onyx Software" 
+            />
+
       - name: Set up Haxe
         uses: krdlab/setup-haxe@v1
         with:
@@ -61,8 +82,8 @@ jobs:
         id: haxe-env-flag
         with:
           conditionals-with-values: |
-            ${{ github.event.inputs.env == 'production' }} => -release
-            ${{ github.event.inputs.env == 'development' }} => -debug
+            ${{ inputs.env == 'production' }} => -release
+            ${{ inputs.env == 'development' }} => -debug
 
       - name: Build
         run: haxelib run openfl build project.xml windows ${{ steps.haxe-env-flag.outputs.value }} -clean
