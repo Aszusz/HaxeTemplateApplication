@@ -47,18 +47,26 @@ jobs:
             ${{ inputs.env == 'production' }} => HaxeTemplateApplication
             ${{ inputs.env == 'development' }} => HaxeTemplateApplicationDevelopment
 
-      - name: Override project.xml
+      - name: Override project.xml title
         uses: rvolo/xml-replace-action@v0.3
         with:
           filepath: "project.xml"
-          xpath: "/project"
-          replace: >
-            <meta 
-            title="${{ steps.full-app-name.outputs.value }} ${{ inputs.version }}" 
-            package="com.example.${{ steps.full-app-name.outputs.value }}" 
-            version="${{ inputs.version }}" 
-            company="Black Onyx Software" 
-            />
+          xpath: "/project/meta/@title"
+          replace: "${{ steps.full-app-name.outputs.value }} ${{ inputs.version }}"
+
+      - name: Override project.xml package
+        uses: rvolo/xml-replace-action@v0.3
+        with:
+          filepath: "project.xml"
+          xpath: "/project/meta/@package"
+          replace: "com.example.${{ steps.full-app-name.outputs.value }}"
+
+      - name: Override project.xml version
+        uses: rvolo/xml-replace-action@v0.3
+        with:
+          filepath: "project.xml"
+          xpath: "/project/meta/@version"
+          replace: "${{ inputs.version }}"
 
       - name: Show changes
         run: cat project.xml
