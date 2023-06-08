@@ -1,4 +1,4 @@
-name: Manual - Build Windows
+name: .Build Windows
 
 on:    
   workflow_dispatch:
