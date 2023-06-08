@@ -44,8 +44,8 @@ jobs:
         id: full-app-name
         with:
           conditionals-with-values: |
-            ${{ inputs.env == 'production' }} => HaxeTemplateApplicationDevelopment ${{ inputs.version }}"
-            ${{ inputs.env == 'development' }} => HaxeTemplateApplication ${{ inputs.version }}"
+            ${{ inputs.env == 'production' }} => HaxeTemplateApplication
+            ${{ inputs.env == 'development' }} => HaxeTemplateApplicationDevelopment
 
       - name: Override project.xml
         uses: rvolo/xml-replace-action@v0.3
