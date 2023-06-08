@@ -1,11 +1,11 @@
-name: _Post Build
+name: SUB - Build Windows
 
 on:    
   workflow_dispatch:
 
 jobs:
   build:
-    runs-on: linux-latest
+    runs-on: windows-latest
     
     steps:    
       - name: Print error
