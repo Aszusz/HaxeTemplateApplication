@@ -68,12 +68,6 @@ jobs:
           xpath: "/project/meta/@version"
           replace: "${{ inputs.version }}"
 
-      - name: Show changes
-        run: cat project.xml
-
-      - name: Fail workflow immediately
-        run: exit 1
-
       - name: Set up Haxe
         uses: krdlab/setup-haxe@v1
         with:

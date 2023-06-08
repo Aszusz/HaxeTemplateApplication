@@ -39,6 +39,35 @@ jobs:
       - name: Checkout LFS objects
         run: git lfs checkout
 
+      - name: Map Env to full-app-name
+        uses: spilchen/switch-case-action@v2
+        id: full-app-name
+        with:
+          conditionals-with-values: |
+            ${{ inputs.env == 'production' }} => HaxeTemplateApplication
+            ${{ inputs.env == 'development' }} => HaxeTemplateApplicationDevelopment
+
+      - name: Override project.xml title
+        uses: rvolo/xml-replace-action@v0.3
+        with:
+          filepath: "project.xml"
+          xpath: "/project/meta/@title"
+          replace: "${{ steps.full-app-name.outputs.value }} ${{ inputs.version }}"
+
+      - name: Override project.xml package
+        uses: rvolo/xml-replace-action@v0.3
+        with:
+          filepath: "project.xml"
+          xpath: "/project/meta/@package"
+          replace: "com.example.${{ steps.full-app-name.outputs.value }}"
+
+      - name: Override project.xml version
+        uses: rvolo/xml-replace-action@v0.3
+        with:
+          filepath: "project.xml"
+          xpath: "/project/meta/@version"
+          replace: "${{ inputs.version }}"
+
       - name: Set up Haxe
         uses: krdlab/setup-haxe@v1
         with:
