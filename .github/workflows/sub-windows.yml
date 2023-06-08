@@ -51,7 +51,7 @@ jobs:
         uses: rvolo/xml-replace-action@v0.3
         with:
           filepath: "project.xml"
-          xpath: "//project/meta/"
+          xpath: "//project/meta"
           replace: >
             <meta 
             title="${{ steps.full-app-name.outputs.value }} ${{ inputs.version }}" 
@@ -59,6 +59,12 @@ jobs:
             version="${{ inputs.version }}" 
             company="Black Onyx Software" 
             />
+
+      - name: Show changes
+        run: cat project.xml
+
+      - name: Fail workflow immediately
+        run: exit 1
 
       - name: Set up Haxe
         uses: krdlab/setup-haxe@v1
