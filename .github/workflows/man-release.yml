@@ -1,0 +1,12 @@
+name: MAN - Release
+
+on:    
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: linux-latest
+    
+    steps:    
+      - name: Print error
+        run: echo 'Error - placeholder workflow to be run from feature branch'

@@ -1,0 +1,12 @@
+name: SUB - Build macOS
+
+on:    
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    
+    steps:    
+      - name: Print error
+        run: echo 'Error - placeholder workflow to be run from feature branch'
