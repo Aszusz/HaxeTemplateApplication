@@ -2,11 +2,73 @@ name: SUB - Build Windows
 
 on:    
   workflow_dispatch:
+    inputs:
+      env:
+        description: 'An Environment'
+        required: true
+        type: choice
+        options:
+          - development
+          - production
+      version:
+        description: 'A Version'
+        required: true
+        type: string
+
+  workflow_call:
+    inputs:
+      env:
+        description: 'An Environment'
+        required: true
+        type: string
+      version:
+        description: 'A Version'
+        required: true
+        type: string
 
 jobs:
   build:
     runs-on: windows-latest
     
     steps:    
-      - name: Print error
-        run: echo 'Error - placeholder workflow to be run from feature branch'
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          lfs: true
+      
+      - name: Checkout LFS objects
+        run: git lfs checkout
+
+      - name: Set up Haxe
+        uses: krdlab/setup-haxe@v1
+        with:
+          haxe-version: 4.2.5
+
+      - name: Update haxelib
+        run: haxelib --global update haxelib --quiet
+
+      - name: Read install dependencies
+        id: dependencies
+        uses: juliangruber/read-file-action@v1.1.6
+        with:
+          path: ./install-dependencies.yml
+          
+      - name: Execute install dependencies
+        run: ${{ steps.dependencies.outputs.content }}
+
+      - name: Map Env to Haxe debug flag
+        uses: spilchen/switch-case-action@v2
+        id: haxe-env-flag
+        with:
+          conditionals-with-values: |
+            ${{ github.event.inputs.env == 'production' }} => -release
+            ${{ github.event.inputs.env == 'development' }} => -debug
+
+      - name: Build
+        run: haxelib run openfl build project.xml windows ${{ steps.haxe-env-flag.outputs.value }} -clean
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: windows-${{ inputs.env }}-bin
+          path: bin/windows/bin/
