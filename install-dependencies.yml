@@ -1,5 +1,5 @@
 # haxelib install hxp --quiet
-# haxelib install hxcpp --quiet
+haxelib install hxcpp --quiet
 # haxelib install format --quiet
 # git clone --recursive --depth 1 --branch 8.1.0-Dev https://github.com/openfl/lime
 # haxelib dev lime lime

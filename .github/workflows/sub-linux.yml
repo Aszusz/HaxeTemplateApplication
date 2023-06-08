@@ -70,5 +70,5 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
-          name: linux-${{ inputs.env }}bin
+          name: linux-${{ inputs.env }}-bin
           path: bin/linux/bin/
