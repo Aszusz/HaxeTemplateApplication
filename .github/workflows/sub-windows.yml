@@ -93,6 +93,9 @@ jobs:
             ${{ inputs.env == 'production' }} => -release
             ${{ inputs.env == 'development' }} => -debug
 
+      - name: Print haxelib dependencies
+        uses: aszusz/print-haxelib-dependencies@main
+
       - name: Build
         run: haxelib run openfl build project.xml windows ${{ steps.haxe-env-flag.outputs.value }} -clean
 
